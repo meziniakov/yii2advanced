@@ -2,8 +2,11 @@
 
 namespace console\controllers;
 
-use yii\console\Controller;
 use Yii;
+use yii\console\Controller;
+use console\models\News;
+use console\models\Subscriber;
+use console\models\Sender;
 
 class MailerController extends Controller
 {
@@ -12,13 +15,19 @@ class MailerController extends Controller
    */
   public function actionSend()
   {
-    $result = Yii::$app->mailer->compose()
-        ->setFrom('mezin.fasie@yandex.ru')
-        ->setTo('z2941@yandex.ru')
-        ->setSubject('Subject mail')
-        ->setTextBody('Text body')
-        ->setHtmlBody('<b>text</b>')
-        ->send();
-     var_dump($result);
+    $newsList = News::getNewsList();
+    $subscribers = Subscriber::getList();
+    $result = Sender::run($subscribers, $newsList);
+    $status = News::newsStatusSend();
+    return $status;
+  }
+
+  public function actionTime()
+  {
+    Yii::$app->formatter->locale = 'ru-RU';
+    $date = Yii::$app->formatter->asDate('now','dd-MM-yyyy HH:mm:ss')."\n";
+    $filename = "/var/www/yii2/frontend/web/log.txt";
+    file_put_contents($filename, $date, FILE_APPEND);
+    //echo date("H:i:s");
   }
 }

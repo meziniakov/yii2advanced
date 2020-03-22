@@ -45,7 +45,7 @@ return [
             ],
         ],
         'stringHelper' => [
-            'class' => 'frontend\components\StringHelper',
+            'class' => 'common\components\StringHelper',
         ],
     ],
     'params' => $params,
