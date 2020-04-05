@@ -14,6 +14,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            //'enableCsrfValidation' => false,
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -49,4 +50,8 @@ return [
         ],
     ],
     'params' => $params,
+    'aliases' => [
+        '@uploads' => '/var/www/yii2/frontend/web/uploads/',
+        '@web' => '/var/www/yii2/frontend/web/',
+    ],
 ];
